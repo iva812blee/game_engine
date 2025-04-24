@@ -70,12 +70,18 @@ pub fn distance(a: &Point, b: &Point) -> f64 {
     ((b.x - a.x).powi(2) + (b.y - a.y).powi(2) + (b.z - a.z).powi(2)).sqrt()
 }
 
+// градус в радианы
+fn radians(degrees: f64) -> f64 {
+    degrees * std::f64::consts::PI / 180.0
+}
+
 // ПОВОРОТ ВЕКТОРА
 // угол - угол поворота в радианах
 // v - вектор, который нужно повернуть
 // возвращает новый вектор, который является результатом поворота
 // поворот вектор вокруг оси Z
 pub fn rotate_vector_z(angle: f64, v: &Vector) -> Vector {
+    let angle = radians(angle);
     let cos_angle = angle.cos();
     let sin_angle = angle.sin();
     Vector {
@@ -87,6 +93,7 @@ pub fn rotate_vector_z(angle: f64, v: &Vector) -> Vector {
 
 // Поворот вектора вокруг оси Y
 pub fn rotate_vector_y(angle: f64, v: &Vector) -> Vector {
+    let angle = radians(angle);
     let cos_angle = angle.cos();
     let sin_angle = angle.sin();
     Vector {
@@ -98,11 +105,21 @@ pub fn rotate_vector_y(angle: f64, v: &Vector) -> Vector {
 
 // Поворот вектора вокруг оси X
 pub fn rotate_vector_x(angle: f64, v: &Vector) -> Vector {
+    let angle = radians(angle);
     let cos_angle = angle.cos();
     let sin_angle = angle.sin();
     Vector {
         x: v.x,
         y: v.y * cos_angle - v.z * sin_angle,
         z: v.y * sin_angle + v.z * cos_angle,
+    }
+}
+
+// Гомотетия вектора (растяжение или сжатие)
+pub fn scaling_vector(scale_x: f64, scale_y: f64, scale_z: f64, v: &Vector) -> Vector {
+    Vector {
+        x: v.x * scale_x,
+        y: v.y * scale_y,
+        z: v.z * scale_z,
     }
 }
